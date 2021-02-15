@@ -1,19 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
-import {useProperties} from "../PropertiesContext";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from '@material-ui/core/styles';
 
-export function FormTable() {
-
-   const {elements, changeElement, handleSubmit} = useProperties()
+export default  function FormTable(props) {
+const { modalOpen, properties, setProperties } = props
 const useStyles = makeStyles(() => ({
   formFields: {
     width: '100%',
   },
 }));
- const classes = useStyles();
-    return (
+
+const classes = useStyles();
+
+const initialProps = {
+    'product': '',
+    'kkal': '',
+    'proteins': '',
+    'carbs': '',
+    'fats': '',
+    'weight': '',
+}
+
+const [elements, setElements] = useState(initialProps)
+
+
+    const changeElement = (event) => {
+        const id = event.target.id
+        const value = event.target.value
+        setElements({...elements, [id]: value});
+    }
+     const currentWeightCount = (prop) => {
+        return  (elements[prop] * elements.weight/100).toFixed(2)
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+   const keys = Object.keys(elements)
+     const newProp = Object.fromEntries(keys.map((el) => {
+            if( el === 'product' || el === 'weight'){
+                return [[el], elements[el]]
+            } else {
+                return  [[el], currentWeightCount(el)]
+            }
+        }))
+
+        setProperties([...properties, newProp])
+        setElements(initialProps);
+        modalOpen(false);
+    }
+return (
             <Box>
         <form onSubmit={handleSubmit} >
             <Grid container spacing={3}>
@@ -88,7 +125,7 @@ const useStyles = makeStyles(() => ({
 
             <Grid item xs={12}>
                 <Box  align="center">
-            <Button variant="outlined" color="primary" type="submit">Записать продукт</Button>
+            <Button variant="outlined" color="primary" type="submit" onSubmit={handleSubmit} >Записать продукт</Button>
                 </Box>
                  </Grid>
             </Grid>
@@ -96,4 +133,3 @@ const useStyles = makeStyles(() => ({
 </Box>
     )
 }
-export default FormTable
