@@ -17,6 +17,7 @@ export function ProductsTable(props){
      {field: 'weight', title: 'Масса(g)'},
 ]
 
+const propNames = Object.keys(sum)
 
     return(
          <MaterialTable columns={columns} data={properties}
@@ -40,11 +41,9 @@ export function ProductsTable(props){
                                     <TableCell component="th" scope="row">
                                         Сумма:
                                     </TableCell>
-                                    <TableCell>{sum.kkal}</TableCell>
-                                    <TableCell>{sum.proteins}</TableCell>
-                                    <TableCell>{sum.fats}</TableCell>
-                                    <TableCell>{sum.carbs}</TableCell>
-                                    <TableCell>{sum.weight}</TableCell>
+                                    { propNames.map((product, idx )=> {
+                                        return <TableCell key={idx}>{sum[product]}</TableCell>
+                                    })}
                                 </TableRow>
                             </TableBody>}
                         </>

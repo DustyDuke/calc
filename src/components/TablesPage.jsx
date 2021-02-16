@@ -40,23 +40,26 @@ export default function TablesPage(){
     const per100g = (arr) => {
         return (getSum(arr)*100/finalWeight).toFixed(2)
     }
-    const kkalArr = properties.map(prop => { return prop.kkal })
-    const protsArr = properties.map(prop => { return prop.proteins })
-    const fatsArr = properties.map(prop => { return prop.fats })
-    const carbsArr = properties.map(prop => { return prop.carbs })
-    const weightArr = properties.map(prop => { return prop.weight })
-
-    const calcProperties = () => {
-        setCalculated({ kkal: per100g(kkalArr), proteins: per100g(protsArr), fats: per100g(fatsArr), carbs: per100g(carbsArr), weight: per100g(weightArr) })
-    }
-    const handleChange = (event) => {
+ const handleChange = (event) => {
         setFinalWeight(event.target.value)
     }
-    React.useEffect(()=> {
-        const calcSums = () => {
-        setSum({ kkal: getSum(kkalArr), proteins: getSum(protsArr), fats: getSum(fatsArr), carbs: getSum(carbsArr), weight: getSum(weightArr) })
+const calcFinalProps = (a, fn) => {
+     return  fn(properties.map(prop => { return prop[a] }))
+}
+
+    const calcProperties = () => {
+        setCalculated({ kkal: calcFinalProps( 'kkal', per100g), proteins: calcFinalProps( 'proteins', per100g), fats: calcFinalProps( 'fats', per100g), carbs: calcFinalProps( 'carbs', per100g), weight: calcFinalProps( 'weight', per100g) })
+    }
+
+  const calcSums = () => {
+        setSum({ kkal: calcFinalProps( 'kkal', getSum), proteins: calcFinalProps( 'proteins', getSum), fats: calcFinalProps( 'fats', getSum), carbs: calcFinalProps( 'carbs', getSum), weight: calcFinalProps( 'weight', getSum) })
         }
+
+    React.useEffect(()=> {
         calcSums()
+        if(finalWeight) {
+            calcProperties()
+        }
     }, [properties])
 
 
