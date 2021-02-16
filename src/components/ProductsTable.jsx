@@ -25,6 +25,7 @@ const propNames = Object.keys(sum)
                               paging: false,
                               sorting: false,
                               draggable: false,
+                              actionsColumnIndex: -1,
                               actionsCellStyle: {color: 'red'}}
                    }
                    localization={{ header: { actions: "" },
@@ -37,13 +38,13 @@ const propNames = Object.keys(sum)
                             <MTableBody {...props} />
                             {properties.length> 0 && <TableBody>
                                 <TableRow>
-                                    <TableCell/>
                                     <TableCell component="th" scope="row">
                                         Сумма:
                                     </TableCell>
                                     { propNames.map((product, idx )=> {
                                         return <TableCell key={idx}>{sum[product]}</TableCell>
                                     })}
+                                      <TableCell/>
                                 </TableRow>
                             </TableBody>}
                         </>
