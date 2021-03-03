@@ -9,11 +9,15 @@ import FormTable from "./FormTable";
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import {makeStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from 'react-redux'
 
+import {modalOpen,modalClose} from '../redux/actions'
 
-export default function Modal(props) {
+export default function Modal() {
 
-const { isOpen, modalOpen, properties, setProperties } = props
+const dispatch = useDispatch()
+const isOpen = useSelector(state => state.modalState.isOpen)
+
 const useStyles = makeStyles(() => ({
     dialogContent: {
       overflowY: 'hidden',
@@ -27,11 +31,11 @@ const useStyles = makeStyles(() => ({
 const classes = useStyles();
 
 const handleClickOpen = () => {
-    modalOpen(true);
+ dispatch(modalOpen())
     };
 
 const handleClose = () => {
-    modalOpen(false);
+ dispatch(modalClose())
     };
 
 return (
@@ -46,7 +50,7 @@ return (
           <DialogContentText>
             Заполните параметры продукта
           </DialogContentText>
-            <FormTable modalOpen={modalOpen} properties={properties} setProperties={setProperties}/>
+            <FormTable />
         </DialogContent>
         <DialogActions>
         </DialogActions>

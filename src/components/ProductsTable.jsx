@@ -4,9 +4,15 @@ import { materialTableIcons } from "../materialTableIcons";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { deleteProduct } from '../redux/actions'
 
-export function ProductsTable(props){
-    const { sum, properties,  setProperties } = props
+export function ProductsTable(){
+    
+    const dispatch = useDispatch()
+
+    const products = useSelector(state => state.data)
+    const sum = useSelector(state => state.sum)
 
  const columns = [
      {field: 'product', title: 'Продукт'},
@@ -20,7 +26,7 @@ export function ProductsTable(props){
 const propNames = Object.keys(sum)
 
     return(
-         <MaterialTable columns={columns} data={properties}
+         <MaterialTable columns={columns} data={products}
                    options={{ toolbar: false,
                               paging: false,
                               sorting: false,
@@ -36,7 +42,7 @@ const propNames = Object.keys(sum)
                     return (
                         <>
                             <MTableBody {...props} />
-                            {properties.length> 0 && <TableBody>
+                            {products.length> 0 && <TableBody>
                                 <TableRow>
                                     <TableCell component="th" scope="row">
                                         Сумма:
@@ -54,10 +60,10 @@ const propNames = Object.keys(sum)
                     editable={{
         onRowDelete: oldData =>
           new Promise((resolve) => {
-              const dataDelete = [...properties];
+              const dataDelete = [...products];
               const index = oldData.tableData.id;
               dataDelete.splice(index, 1);
-              setProperties([...dataDelete]);
+              dispatch(deleteProduct(dataDelete))
               resolve()
           })
       }}

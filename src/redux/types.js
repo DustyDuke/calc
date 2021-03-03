@@ -1,0 +1,12 @@
+export const ADD_PRODUCT = 'ADD_PRODUCT'
+export const ADD_PROPERTIES = 'ADD_PROPERTIES'
+export const CLEAR_PROPERTIES = 'CLEAR_PROPERTIES'
+export const DATA_PRODUCTS = 'DATA_PRODUCTS'
+export const DELETE_PRODUCT = 'DELETE_PRODUCT'
+
+export const MODAL_OPEN = 'MODAL_OPEN'
+export const MODAL_CLOSE = 'MODAL_CLOSE'
+
+export const GET_SUM = 'GET_SUM'
+export const GET_CALCULATED = 'GET_CALCULATED'
+export const FINAL_WEIGHT = 'FINAL_WEIGHT'

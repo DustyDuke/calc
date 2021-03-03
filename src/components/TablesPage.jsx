@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { CalculateElementsTable } from "./CalculatedElementsTable";
 import { ProductsTable } from "./ProductsTable";
 import Box from "@material-ui/core/Box";
@@ -8,6 +8,8 @@ import Modal from "./Modal";
 import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 
+import { useSelector, useDispatch} from 'react-redux'
+import { getFinalWeight, calcProductPropsSums, calсulatedProps } from '../redux/actions'
 export default function TablesPage(){
 
     const useStyles = makeStyles(() => ({
@@ -25,14 +27,10 @@ export default function TablesPage(){
     }));
 
     const classes = useStyles();
+    const dispatch = useDispatch()
 
-    const initialSums = { kkal: 0, proteins: 0, fats: 0, carbs: 0, weight: 0 }
-
-    const [properties, setProperties] = useState([])
-    const [sum, setSum] = React.useState(initialSums)
-    const [calculated, setCalculated] = useState(initialSums)
-    const [finalWeight, setFinalWeight] = useState('')
-    const [open, setOpen] = React.useState(false);
+    const properties = useSelector(state => state.data)
+    const finalWeight = useSelector(state => state.weightState)
 
     const getSum = (arr) => {
         return (arr.length > 0) ? arr.reduce((a, b) => +a + +b) : 0
@@ -41,19 +39,19 @@ export default function TablesPage(){
         return (getSum(arr)*100/finalWeight).toFixed(2)
     }
  const handleChange = (event) => {
-        setFinalWeight(event.target.value)
+        dispatch(getFinalWeight(event.target.value))
     }
 const calcFinalProps = (a, fn) => {
      return  fn(properties.map(prop => { return prop[a] }))
 }
 
     const calcProperties = () => {
-        setCalculated({ kkal: calcFinalProps( 'kkal', per100g), proteins: calcFinalProps( 'proteins', per100g), fats: calcFinalProps( 'fats', per100g), carbs: calcFinalProps( 'carbs', per100g), weight: calcFinalProps( 'weight', per100g) })
+        dispatch(calсulatedProps([{ kkal: calcFinalProps( 'kkal', per100g), proteins: calcFinalProps( 'proteins', per100g), fats: calcFinalProps( 'fats', per100g), carbs: calcFinalProps( 'carbs', per100g), weight: calcFinalProps( 'weight', per100g)}]))
     }
 
   const calcSums = () => {
-        setSum({ kkal: calcFinalProps( 'kkal', getSum), proteins: calcFinalProps( 'proteins', getSum), fats: calcFinalProps( 'fats', getSum), carbs: calcFinalProps( 'carbs', getSum), weight: calcFinalProps( 'weight', getSum) })
-        }
+     dispatch(calcProductPropsSums({ kkal: calcFinalProps( 'kkal', getSum), proteins: calcFinalProps( 'proteins', getSum), fats: calcFinalProps( 'fats', getSum), carbs: calcFinalProps( 'carbs', getSum), weight: calcFinalProps( 'weight', getSum) })) 
+    }
 
     React.useEffect(()=> {
         calcSums()
@@ -69,9 +67,9 @@ const calcFinalProps = (a, fn) => {
                 <h1>Калькулятор КБЖУ</h1>
                 <h3>Для любителей готовить фитоняшные вкусняшки</h3>
             </Box>
-            <ProductsTable sum={sum} properties={properties}  setProperties={setProperties}  />
+            <ProductsTable  />
             <Box mt={5} mb={5} align="center">
-                <Modal modalOpen={setOpen} isOpen={open} properties={properties} setProperties={setProperties}/>
+                <Modal />
             </Box>
             <Box mt={5} mb={5}>
                 <p>Масса готового продукта может отличаться от суммы масс всех добавленных ингридиентов, поэтому не
@@ -88,7 +86,7 @@ const calcFinalProps = (a, fn) => {
 
             </Box>
             <h4 align="center">КБЖУ на 100 граммов готового продукта</h4>
-            <CalculateElementsTable calculated={calculated} />
+            <CalculateElementsTable />
             <Box mt={5} mb={3} className={classes.infoText}>
                 <p>Если ты нашёл ошибки или неточности в работе моего калькулятора, сообщи мне об этом,
                     пожалуйста, <Link href='mailto:kotenevaelena13@gmail.com' className={classes.myLink}>на почту</Link>.

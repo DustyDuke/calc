@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import Box from "@material-ui/core/Box";
 import { makeStyles } from '@material-ui/core/styles';
 
-export default  function FormTable(props) {
-const { modalOpen, properties, setProperties } = props
+import {useDispatch, useSelector} from 'react-redux'
+import {addProduct, addProperties, clearProperties, modalClose} from '../redux/actions'
+
+export default  function FormTable() {
 const useStyles = makeStyles(() => ({
   formFields: {
     width: '100%',
@@ -22,13 +24,13 @@ const initialProps = {
     'weight': '',
 }
 
-const [elements, setElements] = useState(initialProps)
-
-
+    const dispatch = useDispatch()
+    const elements = useSelector(state => state.prop)
     const changeElement = (event) => {
         const id = event.target.id
         const value = event.target.value
-        setElements({...elements, [id]: value});
+        const prop = {[id]: value}
+        dispatch(addProperties(prop))
     }
      const currentWeightCount = (prop) => {
         return  (elements[prop] * elements.weight/100).toFixed(2)
@@ -46,9 +48,9 @@ const [elements, setElements] = useState(initialProps)
             }
         }))
 
-        setProperties([...properties, newProp])
-        setElements(initialProps);
-        modalOpen(false);
+        dispatch(modalClose())
+        dispatch(addProduct(newProp))
+        dispatch(clearProperties(initialProps))
     }
 return (
             <Box>
