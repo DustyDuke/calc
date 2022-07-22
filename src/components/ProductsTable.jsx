@@ -29,7 +29,9 @@ const propNames = Object.keys(sum)
                               actionsCellStyle: {color: 'red'}}
                    }
                    localization={{ header: { actions: "" },
-                       body: { emptyDataSourceMessage: "Добавьте продукты", editRow: { deleteText: "Вы уверены, что хотите удалить ингридиент?" }} }}
+                       body: {
+                           emptyDataSourceMessage: "Добавьте продукты",
+                           editRow: { deleteText: "Вы уверены, что хотите удалить ингридиент?" }} }}
                    icons={materialTableIcons}
                    components={{
                           Body: (props) => {

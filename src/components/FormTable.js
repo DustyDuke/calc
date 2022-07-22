@@ -3,31 +3,41 @@ import { Grid, TextField, Button } from '@material-ui/core';
 import Box from "@material-ui/core/Box";
 import { makeStyles } from '@material-ui/core/styles';
 
-export default  function FormTable(props) {
-const { modalOpen, properties, setProperties } = props
-const useStyles = makeStyles(() => ({
-  formFields: {
-    width: '100%',
-  },
-}));
-
-const classes = useStyles();
-
-const initialProps = {
-    'product': '',
-    'kkal': '',
-    'proteins': '',
-    'carbs': '',
-    'fats': '',
-    'weight': '',
+const labels = {
+    product: "Ингридиент",
+    kkal: "Энергетическая ценность",
+    proteins: "Белки",
+    carbs: "Углеводы",
+    fats: "Жиры",
+    weight: "Масса",
 }
 
-const [elements, setElements] = useState(initialProps)
+const useStyles = makeStyles(() => ({
+    formFields: {
+        width: '100%',
+    },
+}));
 
+export default function FormTable(props) {
+    const { modalOpen, properties, setProperties } = props
+
+
+    const classes = useStyles();
+
+    const initialProps = {
+        product: '',
+        kkal: '',
+        proteins: '',
+        carbs: '',
+        fats: '',
+        weight: '',
+    }
+
+    const [elements, setElements] = useState(initialProps)
+    const elementsNames = Object.keys(elements)
 
     const changeElement = (event) => {
-        const id = event.target.id
-        const value = event.target.value
+        const {id, value} = event.target
         setElements({...elements, [id]: value});
     }
      const currentWeightCount = (prop) => {
@@ -37,99 +47,42 @@ const [elements, setElements] = useState(initialProps)
     const handleSubmit = (event) => {
         event.preventDefault()
 
-   const keys = Object.keys(elements)
-     const newProp = Object.fromEntries(keys.map((el) => {
+     const newProp = Object.fromEntries(elementsNames.map((el) => {
             if( el === 'product' || el === 'weight'){
                 return [[el], elements[el]]
-            } else {
-                return  [[el], currentWeightCount(el)]
-            }
+            } return  [[el], currentWeightCount(el)]
+
         }))
 
         setProperties([...properties, newProp])
         setElements(initialProps);
         modalOpen(false);
     }
-return (
-            <Box>
-        <form onSubmit={handleSubmit} >
-            <Grid container spacing={3}>
-                <Grid item md={6} xs={12} >
-               <TextField
-                   className={classes.formFields}
-                   id="product"
-                   label="Ингридиент"
-                   type="text"
-                   variant="outlined"
-                   onChange={changeElement}
-                   value={elements.product}
-                   required
-                />
+    return (<Box>
+            <form onSubmit={handleSubmit} >
+                <Grid container spacing={3}>
+                    {elementsNames.map(element => (
+                        <Grid item md={6} xs={12} key={element} >
+                            <TextField
+                                className={classes.formFields}
+                                id={element}
+                                label={labels[element]}
+                                type={element === 'product' ? 'type' : 'number'}
+                                variant="outlined"
+                                onChange={changeElement}
+                                value={elements[element]}
+                                required
+                            />
+                        </Grid>)
+                    )}
+                    <Grid item xs={12}>
+                        <Box  align="center">
+                            <Button variant="outlined" color="primary" type="submit" onSubmit={handleSubmit}>Записать продукт</Button>
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid item md={6} xs={12} >
-                <TextField
-                    className={classes.formFields}
-                    id="kkal"
-                    label="Энергетическая ценность"
-                    type="number"
-                    variant="outlined"
-                    onChange={changeElement}
-                    value={elements.kkal}
-                />
-                </Grid>
-                <Grid item md={6} xs={12} >
-                <TextField
-                    className={classes.formFields}
-                    id="proteins"
-                    label="белки"
-                    type="number"
-                    variant="outlined"
-                    onChange={changeElement}
-                    value={elements.proteins}
-                />
-                </Grid>
-                <Grid item md={6} xs={12} >
-                <TextField
-                    className={classes.formFields}
-                    id="fats"
-                    label="Жиры"
-                    type="number"
-                    variant="outlined"
-                    onChange={changeElement}
-                    value={elements.fats}
-                />
-                </Grid>
-                <Grid item md={6} xs={12}>
-                <TextField
-                    className={classes.formFields}
-                    id="carbs"
-                    label="Углеводы"
-                    type="number"
-                    variant="outlined"
-                    onChange={changeElement}
-                    value={elements.carbs}
-                />
-                </Grid>
-                 <Grid item md={6} xs={12} >
-            <TextField
-                    className={classes.formFields}
-                    id="weight"
-                    label="Масса продукта"
-                    type="number"
-                    variant="outlined"
-                    onChange={changeElement}
-                    value={elements.weight}
-                    required
-                />
-                 </Grid>
-
-            <Grid item xs={12}>
-                <Box  align="center">
-            <Button variant="outlined" color="primary" type="submit" onSubmit={handleSubmit} >Записать продукт</Button>
-                </Box>
-                 </Grid>
-            </Grid>
-        </form>
-</Box>
+            </form>
+        </Box>
     )
 }
+

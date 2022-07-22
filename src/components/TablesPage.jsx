@@ -29,10 +29,10 @@ export default function TablesPage(){
     const initialSums = { kkal: 0, proteins: 0, fats: 0, carbs: 0, weight: 0 }
 
     const [properties, setProperties] = useState([])
-    const [sum, setSum] = React.useState(initialSums)
+    const [sum, setSum] = useState(initialSums)
     const [calculated, setCalculated] = useState(initialSums)
     const [finalWeight, setFinalWeight] = useState('')
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const getSum = (arr) => {
         return (arr.length > 0) ? arr.reduce((a, b) => +a + +b) : 0
@@ -40,19 +40,29 @@ export default function TablesPage(){
     const per100g = (arr) => {
         return (getSum(arr)*100/finalWeight).toFixed(2)
     }
- const handleChange = (event) => {
+    const handleChange = (event) => {
         setFinalWeight(event.target.value)
     }
-const calcFinalProps = (a, fn) => {
+    const calcFinalProps = (a, fn) => {
      return  fn(properties.map(prop => { return prop[a] }))
-}
+    }
 
     const calcProperties = () => {
-        setCalculated({ kkal: calcFinalProps( 'kkal', per100g), proteins: calcFinalProps( 'proteins', per100g), fats: calcFinalProps( 'fats', per100g), carbs: calcFinalProps( 'carbs', per100g), weight: calcFinalProps( 'weight', per100g) })
+        setCalculated({
+            kkal: calcFinalProps( 'kkal', per100g),
+            proteins: calcFinalProps( 'proteins', per100g),
+            fats: calcFinalProps( 'fats', per100g),
+            carbs: calcFinalProps( 'carbs', per100g),
+            weight: calcFinalProps( 'weight', per100g) })
     }
 
   const calcSums = () => {
-        setSum({ kkal: calcFinalProps( 'kkal', getSum), proteins: calcFinalProps( 'proteins', getSum), fats: calcFinalProps( 'fats', getSum), carbs: calcFinalProps( 'carbs', getSum), weight: calcFinalProps( 'weight', getSum) })
+        setSum({
+            kkal: calcFinalProps( 'kkal', getSum),
+            proteins: calcFinalProps( 'proteins', getSum),
+            fats: calcFinalProps( 'fats', getSum),
+            carbs: calcFinalProps( 'carbs', getSum),
+            weight: calcFinalProps( 'weight', getSum) })
         }
 
     React.useEffect(()=> {
