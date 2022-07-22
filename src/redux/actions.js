@@ -56,9 +56,9 @@ export const calcProductPropsSums = (sum) => {
     }
 }
 
-export const calсulatedProps = (calсulated) => {
+export const calculatedProps = (calculated) => {
     return {
         type: GET_CALCULATED,
-        payload: calсulated
+        payload: calculated
     }
 }

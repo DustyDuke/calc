@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 
 import { useSelector, useDispatch} from 'react-redux'
-import { getFinalWeight, calcProductPropsSums, calсulatedProps } from '../redux/actions'
+import { getFinalWeight, calcProductPropsSums, calculatedProps } from '../redux/actions'
 export default function TablesPage(){
 
     const useStyles = makeStyles(() => ({
@@ -38,19 +38,29 @@ export default function TablesPage(){
     const per100g = (arr) => {
         return (getSum(arr)*100/finalWeight).toFixed(2)
     }
- const handleChange = (event) => {
+    const handleChange = (event) => {
         dispatch(getFinalWeight(event.target.value))
     }
-const calcFinalProps = (a, fn) => {
+    const calcFinalProps = (a, fn) => {
      return  fn(properties.map(prop => { return prop[a] }))
 }
 
     const calcProperties = () => {
-        dispatch(calсulatedProps([{ kkal: calcFinalProps( 'kkal', per100g), proteins: calcFinalProps( 'proteins', per100g), fats: calcFinalProps( 'fats', per100g), carbs: calcFinalProps( 'carbs', per100g), weight: calcFinalProps( 'weight', per100g)}]))
+        dispatch(calculatedProps([{
+                kkal: calcFinalProps( 'kkal', per100g),
+                proteins: calcFinalProps( 'proteins', per100g),
+                fats: calcFinalProps( 'fats', per100g),
+                carbs: calcFinalProps( 'carbs', per100g),
+                weight: calcFinalProps( 'weight', per100g)}]))
     }
 
   const calcSums = () => {
-     dispatch(calcProductPropsSums({ kkal: calcFinalProps( 'kkal', getSum), proteins: calcFinalProps( 'proteins', getSum), fats: calcFinalProps( 'fats', getSum), carbs: calcFinalProps( 'carbs', getSum), weight: calcFinalProps( 'weight', getSum) })) 
+     dispatch(calcProductPropsSums({
+             kkal: calcFinalProps( 'kkal', getSum),
+             proteins: calcFinalProps( 'proteins', getSum),
+             fats: calcFinalProps( 'fats', getSum),
+             carbs: calcFinalProps( 'carbs', getSum),
+             weight: calcFinalProps( 'weight', getSum) }))
     }
 
     React.useEffect(()=> {

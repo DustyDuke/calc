@@ -15,9 +15,10 @@ const calculated = useSelector(state => state.calculated)
     ]
 
 return (
-        <MaterialTable columns={columns} data={calculated}
-                       options={{toolbar: false, paging: false, sorting: false, draggable: false}}
-                   localization={{ body: {emptyDataSourceMessage: "Добавьте продукты"} }}
-                   icons={materialTableIcons} />
+        <MaterialTable
+            columns={columns} data={calculated}
+            options={{toolbar: false, paging: false, sorting: false, draggable: false}}
+            localization={{ body: {emptyDataSourceMessage: "Добавьте продукты"} }}
+            icons={materialTableIcons} />
         )
 }

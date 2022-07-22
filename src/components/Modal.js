@@ -16,7 +16,7 @@ import {modalOpen,modalClose} from '../redux/actions'
 export default function Modal() {
 
 const dispatch = useDispatch()
-const isOpen = useSelector(state => state.modalState.isOpen)
+const {isOpen} = useSelector(state => state.modalState)
 
 const useStyles = makeStyles(() => ({
     dialogContent: {

@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteProduct } from '../redux/actions'
 
 export function ProductsTable(){
-    
+
     const dispatch = useDispatch()
 
     const products = useSelector(state => state.data)
@@ -35,7 +35,8 @@ const propNames = Object.keys(sum)
                               actionsCellStyle: {color: 'red'}}
                    }
                    localization={{ header: { actions: "" },
-                       body: { emptyDataSourceMessage: "Добавьте продукты", editRow: { deleteText: "Вы уверены, что хотите удалить ингридиент?" }} }}
+                           body: { emptyDataSourceMessage: "Добавьте продукты",
+                           editRow: { deleteText: "Вы уверены, что хотите удалить ингридиент?" }} }}
                    icons={materialTableIcons}
                    components={{
                           Body: (props) => {

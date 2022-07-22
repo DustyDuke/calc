@@ -1,5 +1,16 @@
 import {combineReducers} from "redux";
-import {DATA_PRODUCTS, DELETE_PRODUCT, ADD_PRODUCT, ADD_PROPERTIES, CLEAR_PROPERTIES, MODAL_CLOSE, MODAL_OPEN, GET_SUM, FINAL_WEIGHT, GET_CALCULATED } from "./types";
+import {
+    DATA_PRODUCTS,
+    DELETE_PRODUCT,
+    ADD_PRODUCT,
+    ADD_PROPERTIES,
+    CLEAR_PROPERTIES,
+    MODAL_CLOSE,
+    MODAL_OPEN,
+    GET_SUM,
+    FINAL_WEIGHT,
+    GET_CALCULATED
+} from "./types";
 
 const initialProduct = {
     'product': '',
@@ -13,7 +24,7 @@ const createProductReducer = (state = initialProduct, action) => {
     switch (action.type) {
      case ADD_PROPERTIES:
          return {...state, ...action.payload}
-     case CLEAR_PROPERTIES: 
+     case CLEAR_PROPERTIES:
           return {...action.payload}
         default: return state
     }
@@ -42,7 +53,7 @@ const modalReducer = (state = initialState, action) => {
          return {...state, isOpen: true}
         case MODAL_CLOSE:
           return {...state, isOpen: false}
-       
+
         default: return state
     }
 
@@ -57,7 +68,7 @@ const finalWeightReducer = (state = '', action) => {
         default: return state
     }
 
-} 
+}
 
 const initialSums = { kkal: 0, proteins: 0, fats: 0, carbs: 0, weight: 0 }
 
@@ -65,7 +76,7 @@ const sumReducer = (state = initialSums, action) => {
     switch (action.type) {
         case GET_SUM:
             return {...state, ...action.payload}
-      
+
         default: return state
     }
 }
@@ -77,7 +88,7 @@ const calculatedReducer = (state = initialCalculated, action) => {
     switch (action.type) {
         case GET_CALCULATED:
             return  [ ...action.payload]
-       
+
         default: return state
     }
 }
