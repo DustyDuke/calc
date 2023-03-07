@@ -6,44 +6,43 @@ import TableCell from "@material-ui/core/TableCell";
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteProduct } from '../redux/actions'
+import {productTableColumns} from "../constants";
+import {useTheme} from "@material-ui/core";
 
 export function ProductsTable(){
-
+    const {palette} = useTheme()
     const dispatch = useDispatch()
+    const {sum, data} = useSelector(state => state)
+    const propNames = Object.keys(sum)
 
-    const products = useSelector(state => state.data)
-    const sum = useSelector(state => state.sum)
-
- const columns = [
-     {field: 'product', title: 'Продукт'},
-     {field: 'kkal', title: 'Энергетическая ценность (ккал)' },
-     {field: 'proteins', title: 'Белки(g)'},
-     {field: 'fats', title: 'Жиры(g)'},
-     {field: 'carbs', title: 'Углеводы(g)'},
-     {field: 'weight', title: 'Масса(g)'},
-]
-
-const propNames = Object.keys(sum)
+    const handleDelete = oldData =>
+        new Promise((resolve) => {
+            const dataDelete = [...data];
+            const index = oldData.tableData.id;
+            dataDelete.splice(index, 1);
+            dispatch(deleteProduct(dataDelete))
+            resolve()
+        })
 
     return(
-         <MaterialTable columns={columns} data={products}
-                   options={{ toolbar: false,
+         <MaterialTable columns={productTableColumns} data={data}
+                        options={{ toolbar: false,
                               paging: false,
                               sorting: false,
                               draggable: false,
                               actionsColumnIndex: -1,
-                              actionsCellStyle: {color: 'red'}}
+                              actionsCellStyle: {color: palette.error.main}}
                    }
-                   localization={{ header: { actions: "" },
+                        localization={{ header: { actions: "" },
                            body: { emptyDataSourceMessage: "Добавьте продукты",
                            editRow: { deleteText: "Вы уверены, что хотите удалить ингридиент?" }} }}
-                   icons={materialTableIcons}
-                   components={{
+                        icons={materialTableIcons}
+                        components={{
                           Body: (props) => {
                     return (
                         <>
                             <MTableBody {...props} />
-                            {products.length> 0 && <TableBody>
+                            {data.length> 0 && <TableBody>
                                 <TableRow>
                                     <TableCell component="th" scope="row">
                                         Сумма:
@@ -58,15 +57,8 @@ const propNames = Object.keys(sum)
                     );
                 },
                    }}
-                    editable={{
-        onRowDelete: oldData =>
-          new Promise((resolve) => {
-              const dataDelete = [...products];
-              const index = oldData.tableData.id;
-              dataDelete.splice(index, 1);
-              dispatch(deleteProduct(dataDelete))
-              resolve()
-          })
+                        editable={{
+        onRowDelete: handleDelete
       }}
     />
     )

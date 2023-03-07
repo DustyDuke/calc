@@ -1,48 +1,34 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { CalculateElementsTable } from "./CalculatedElementsTable";
 import { ProductsTable } from "./ProductsTable";
 import Box from "@material-ui/core/Box";
 import Input from "@material-ui/core/Input";
 import { Button, Grid } from "@material-ui/core";
 import Modal from "./Modal";
-import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 
 import { useSelector, useDispatch} from 'react-redux'
-import { getFinalWeight, calcProductPropsSums, calculatedProps } from '../redux/actions'
+import {calcProductPropsSums, calculatedProps, getFinalWeight} from '../redux/actions'
+import {useStyles} from "../styles";
+
+
 export default function TablesPage(){
-
-    const useStyles = makeStyles(() => ({
-          initialHeight: {
-      minHeight: '95vh',
-    },
-        infoText: {
-            color: '#0000008A',
-            fontSize: 12,
-        },
-        myLink: {
-            color: '#000',
-            fontWeight: 'bold',
-        },
-    }));
-
     const classes = useStyles();
     const dispatch = useDispatch()
 
-    const properties = useSelector(state => state.data)
-    const finalWeight = useSelector(state => state.weightState)
+    const {data, weightState} = useSelector(state => state)
 
     const getSum = (arr) => {
         return (arr.length > 0) ? arr.reduce((a, b) => +a + +b) : 0
     }
     const per100g = (arr) => {
-        return (getSum(arr)*100/finalWeight).toFixed(2)
+        return (getSum(arr)*100/weightState).toFixed(2)
     }
     const handleChange = (event) => {
         dispatch(getFinalWeight(event.target.value))
     }
     const calcFinalProps = (a, fn) => {
-     return  fn(properties.map(prop => { return prop[a] }))
+     return  fn(data.map(prop => { return prop[a] }))
 }
 
     const calcProperties = () => {
@@ -65,11 +51,10 @@ export default function TablesPage(){
 
     React.useEffect(()=> {
         calcSums()
-        if(finalWeight) {
+        if(weightState) {
             calcProperties()
         }
-    }, [properties])
-
+    }, [data])
 
     return(
         <Box p={3} className={classes.initialHeight}>
@@ -87,10 +72,17 @@ export default function TablesPage(){
 
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
-                        Масса готового продукта:  <Input id="finalWeight" type="number" variant="outlined" value={finalWeight} onChange={handleChange}/>
+                        Масса готового продукта:  <Input
+                        id="finalWeight"
+                        type="number"
+                        variant="outlined"
+                        value={weightState}
+                        onChange={handleChange}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <Button variant="outlined" color="primary" type="button" onClick={calcProperties}>Рассчитать кбжу на 100г</Button>
+                        <Button variant="outlined" color="primary" type="button" onClick={calcProperties}>
+                            Рассчитать кбжу на 100г
+                        </Button>
                     </Grid>
                 </Grid>
 

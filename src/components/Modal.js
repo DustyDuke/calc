@@ -8,27 +8,16 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import FormTable from "./FormTable";
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
-import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from 'react-redux'
 
 import {modalOpen,modalClose} from '../redux/actions'
+import {useStyles} from "../styles";
 
 export default function Modal() {
 
 const dispatch = useDispatch()
-const {isOpen} = useSelector(state => state.modalState)
-
-const useStyles = makeStyles(() => ({
-    dialogContent: {
-      overflowY: 'hidden',
-    },
-    iconClose: {
-    position: 'absolute',
-    right: 10,
-    top: 10,
-    },
-}));
 const classes = useStyles();
+const {isOpen} = useSelector(state => state.modalState)
 
 const handleClickOpen = () => {
  dispatch(modalOpen())

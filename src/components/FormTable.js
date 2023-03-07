@@ -1,37 +1,14 @@
 import React from 'react';
 import { Grid, TextField, Button } from '@material-ui/core';
 import Box from "@material-ui/core/Box";
-import { makeStyles } from '@material-ui/core/styles';
 import {useDispatch, useSelector} from 'react-redux'
 import {addProduct, addProperties, clearProperties, modalClose} from '../redux/actions'
+import {useStyles} from "../styles";
+import {initialProps, labels} from "../constants";
+import {currentWeightCount} from "../helpers";
 
 export default  function FormTable() {
-const useStyles = makeStyles(() => ({
-  formFields: {
-    width: '100%',
-  },
-}));
-
 const classes = useStyles();
-
-const labels = {
-    product: "Ингридиент",
-    kkal: "Энергетическая ценность",
-    proteins: "Белки",
-    carbs: "Углеводы",
-    fats: "Жиры",
-    weight: "Масса",
-}
-
-const initialProps = {
-    product: '',
-    kkal: '',
-    proteins: '',
-    carbs: '',
-    fats: '',
-    weight: '',
-}
-
     const dispatch = useDispatch()
     const elements = useSelector(state => state.prop)
 
@@ -41,9 +18,6 @@ const initialProps = {
         const prop = {[id]: value}
         dispatch(addProperties(prop))
     }
-     const currentWeightCount = (prop) => {
-        return  (elements[prop] * elements.weight/100).toFixed(2)
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -51,7 +25,7 @@ const initialProps = {
             if( el === 'product' || el === 'weight'){
                 return [[el], elements[el]]
             } else {
-                return  [[el], currentWeightCount(el)]
+                return  [[el], currentWeightCount(el, elements)]
             }
         }))
 
