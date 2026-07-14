@@ -49,7 +49,7 @@ export default function TablesPage(){
              weight: calcFinalProps( 'weight', getSum) }))
     }
 
-    React.useEffect(()=> {
+    useEffect(()=> {
         calcSums()
         if(weightState) {
             calcProperties()
