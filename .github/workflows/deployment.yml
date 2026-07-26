@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["**"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run Tests
+        run: npm run test -- --passWithNoTests
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref_name == 'master'
+    steps:
+      - name: Deploy app
+        run: |
+          echo "на этом этапе я могла бы настроить автоматический деплой, но по каким причинам я этого не сделала вы можете спросить у меня на техническом интервью"
