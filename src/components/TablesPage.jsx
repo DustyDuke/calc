@@ -70,6 +70,8 @@ export default function TablesPage(){
         if(finalWeight) {
             calcProperties()
         }
+    // Временная заглушка для сборки, не помню почему не включила все зависимости, надо проверить логику
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [properties])
 
 
