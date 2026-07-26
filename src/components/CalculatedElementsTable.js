@@ -2,7 +2,7 @@ import React from 'react';
 import MaterialTable from "material-table";
 import {materialTableIcons} from "../materialTableIcons";
 import {useSelector} from 'react-redux'
-import {resultTableColumns} from "../constants";
+import {resultTableColumns} from "./constants";
 
 export function CalculateElementsTable() {
 

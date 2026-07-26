@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteProduct } from '../redux/actions'
-import {productTableColumns} from "../constants";
+import {productTableColumns} from "./constants";
 import {useTheme} from "@material-ui/core";
 
 export function ProductsTable(){

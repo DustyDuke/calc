@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
-import { CalculateElementsTable } from "./CalculatedElementsTable";
-import { ProductsTable } from "./ProductsTable";
+import { CalculateElementsTable } from "../components/CalculatedElementsTable";
+import { ProductsTable } from "../components/ProductsTable";
 import Box from "@material-ui/core/Box";
 import Input from "@material-ui/core/Input";
 import { Button, Grid } from "@material-ui/core";
-import Modal from "./Modal";
+import Modal from "../components/Modal";
 import Link from "@material-ui/core/Link";
 
 import { useSelector, useDispatch} from 'react-redux'
@@ -29,7 +29,7 @@ export default function TablesPage(){
     }
     const calcFinalProps = (a, fn) => {
      return  fn(data.map(prop => { return prop[a] }))
-}
+    }
 
     const calcProperties = () => {
         dispatch(calculatedProps([{

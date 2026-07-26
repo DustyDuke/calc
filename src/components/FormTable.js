@@ -4,8 +4,8 @@ import Box from "@material-ui/core/Box";
 import {useDispatch, useSelector} from 'react-redux'
 import {addProduct, addProperties, clearProperties, modalClose} from '../redux/actions'
 import {useStyles} from "../styles";
-import {initialProps, labels} from "../constants";
-import {currentWeightCount} from "../helpers";
+import {initialProps, labels} from "./constants";
+import {currentWeightCount} from "./helpers";
 
 export default  function FormTable() {
 const classes = useStyles();
