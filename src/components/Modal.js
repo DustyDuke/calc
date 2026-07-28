@@ -32,9 +32,9 @@ return (
       <Button variant="outlined" color="primary" onClick={handleClickOpen}><AddIcon />
         Добавить продукт
       </Button>
-      <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title"  data-testid="dialog">
         <DialogTitle id="form-dialog-title">Добавить ингридиент</DialogTitle>
-        <CloseIcon onClick={handleClose}  className={classes.iconClose} />
+        <CloseIcon onClick={handleClose} className={classes.iconClose} data-testid="close-btn-dialog"/>
         <DialogContent className={classes.dialogContent}>
           <DialogContentText>
             Заполните параметры продукта

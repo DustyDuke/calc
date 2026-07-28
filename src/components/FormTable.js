@@ -51,7 +51,7 @@ const classes = useStyles();
                             )}
                     <Grid item xs={12}>
                         <Box  align="center">
-                    <Button variant="outlined" color="primary" type="submit" onSubmit={handleSubmit}>Записать продукт</Button>
+                    <Button variant="outlined" color="primary" type="submit" onSubmit={handleSubmit} data-testid="confirm-btn-dialog">Записать продукт</Button>
                         </Box>
                          </Grid>
                     </Grid>
