@@ -24,9 +24,8 @@ const classes = useStyles();
      const newProp = Object.fromEntries(elementsNames.map((el) => {
             if( el === 'product' || el === 'weight'){
                 return [[el], elements[el]]
-            } else {
-                return  [[el], currentWeightCount(el, elements)]
-            }
+            } 
+            return  [[el], currentWeightCount(el, elements)]
         }))
 
         dispatch(modalClose())
